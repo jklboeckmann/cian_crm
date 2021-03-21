@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { getCarrito, getCarritoDet } from '../../actions/carrito';
+import { getCarrito, getCarritoDet, updateCarrito } from '../../actions/carrito';
 import { getAllProductos } from '../../actions/compras';
 import PropTypes from 'prop-types';
 
@@ -13,14 +13,16 @@ export class Carrito extends Component {
       getCarrito: PropTypes.func.isRequired,
       getCarritoDet: PropTypes.func.isRequired,
       getAllProductos: PropTypes.func.isRequired,
+      updateCarrito: PropTypes.func.isRequired,
     };
+  
   componentDidMount() {
       this.props.getCarrito();
       this.props.getCarritoDet();
       this.props.getAllProductos();
   }
 
- 
+
   render() {
       return (
           <Fragment>
@@ -39,9 +41,7 @@ export class Carrito extends Component {
               
                ))}
               </ul> 
-              <button className='card-btn'  
-             onClick={(e) => {
-                this.ActualizarPedido(e, order_item.cian_pedido)}}>
+              <button className='card-btn'>
              Comprar
                       </button>
              </div>
@@ -60,4 +60,4 @@ const mapStateToProps = (state) => ({
     orderDet: state.carrito.orderDet,
   });
 
-export default connect(mapStateToProps, { getCarrito, getCarritoDet, getAllProductos })(Carrito);
+export default connect(mapStateToProps, { getCarrito, getCarritoDet, getAllProductos, updateCarrito })(Carrito);

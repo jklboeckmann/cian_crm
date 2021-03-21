@@ -17,3 +17,4 @@ export const GET_CARRITO = 'GET_CARRITO';
 export const ADD_CARRITO = 'ADD_CARRITO';
 export const ADD_CARRITO_DET = 'ADD_CARRITO_DET';
 export const GET_CARRITO_DET = 'GET_CARRITO_DET';
+export const UPDATE_CARRITO = 'UPDATE_CARRITO';

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { returnErrors } from './messages';
 import { tokenConfig } from './auth';
 
-import { GET_CARRITO, ADD_CARRITO, ADD_CARRITO_DET, GET_CARRITO_DET } from './types';
+import { GET_CARRITO, ADD_CARRITO, ADD_CARRITO_DET, GET_CARRITO_DET, UPDATE_CARRITO } from './types';
 
 export const getCarrito = () => (dispatch, getState) => {
     axios
@@ -57,3 +57,14 @@ export const getCarrito = () => (dispatch, getState) => {
       .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
   };
   
+  export const updateCarrito = (order) => (dispatch, getState) => {
+    axios
+      .put('/api/carrito/', order, tokenConfig(getState))
+      .then((res) => {
+        dispatch({
+          type: UPDATE_CARRITO,
+          payload: res.data,
+        });
+      })
+      .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
+  };

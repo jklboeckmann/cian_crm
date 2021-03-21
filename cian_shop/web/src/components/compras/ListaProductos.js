@@ -32,7 +32,8 @@ export class ListaProductos extends Component {
         else{
             const pedido = {};
             this.props.addCarrito(pedido)
-            var orders = this.props.order
+            this.props.getCarrito();
+            orders = this.props.order
             orders = orders.filter(order => order.pagado == false)
             this.props.addCarritoDetalle({'cian_pedido':orders[0].cian_pedido,'cian_producto':cian_producto})
 
