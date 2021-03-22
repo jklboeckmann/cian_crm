@@ -105,14 +105,14 @@ export const logout = () => (dispatch, getState) => {
 };
 
 //Le pasa el estado al token config
-export const tokenConfig = (getState) => {
+export const tokenConfig = (getState, contentType='application/json') => {
   // consige el token del estado
   const token = getState().auth.token;
 
   //confijara el content type como json
   const config = {
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': contentType,
     },
   };
 

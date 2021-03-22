@@ -8,12 +8,14 @@ class ProductoSerializer(serializers.ModelSerializer):
     model = Producto 
     fields = '__all__'
 
-class PedidoSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = Pedido
-    fields = '__all__'
-
 class DetallePedidoSerializer(serializers.ModelSerializer):
+  cian_producto = ProductoSerializer()
   class Meta:
     model = DetallePedido
-    fields = '__all__'
+    fields = ['cian_detpedido','cian_pedido','cian_producto','cantidad']
+
+class PedidoSerializer(serializers.ModelSerializer):
+  detalles = DetallePedidoSerializer(many=True, read_only=True)
+  class Meta:
+    model = Pedido
+    fields = ['cian_pedido','fecha','pagado','comprador','total','detalles']

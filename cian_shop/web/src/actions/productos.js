@@ -6,10 +6,10 @@ import { GET_PRODUCTOS, DELETE_PRODUCTO, ADD_PRODUCTO } from './types';
 
 export const getProductos = () => (dispatch, getState) => {
   axios
-    .get('/api/productos/', tokenConfig(getState))
+    .get('/api/productos/', tokenConfig(getState,'multipart/form-data'))
     .then((res) => {
       dispatch({
-        type: GET_PRODUCTOS,
+        type: GET_PRODUCTOS,  
         payload: res.data,
       });
     })
@@ -32,7 +32,7 @@ export const deleteProducto = (id) => (dispatch, getState) => {
 
 export const addProducto = (producto) => (dispatch, getState) => {
   axios
-    .post('/api/productos/', producto, tokenConfig(getState))
+    .post('/api/productos/', producto, tokenConfig(getState,'multipart/form-data'))
     .then((res) => {
       dispatch(createMessage({ addProducto: 'Producto Agregado' }));
       dispatch({

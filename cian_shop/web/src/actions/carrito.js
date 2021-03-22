@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { returnErrors } from './messages';
+import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
 
-import { GET_CARRITO, ADD_CARRITO, ADD_CARRITO_DET, GET_CARRITO_DET, UPDATE_CARRITO } from './types';
+import { GET_CARRITO, ADD_CARRITO, DELETE_CARRITO } from './types';
 
 export const getCarrito = () => (dispatch, getState) => {
     axios
@@ -16,10 +16,11 @@ export const getCarrito = () => (dispatch, getState) => {
       .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
   };
 
-  export const addCarrito = (order) => (dispatch, getState) => {
+  export const addCarrito = (producto) => (dispatch, getState) => {
     axios
-      .post('/api/carrito/', order, tokenConfig(getState))
+      .post('/api/carrito/', producto, tokenConfig(getState))
       .then((res) => {
+        dispatch(createMessage({ addCarrito: 'Se ha agregado al carrito' }));
         dispatch({
           type: ADD_CARRITO,
           payload: res.data,
@@ -28,43 +29,18 @@ export const getCarrito = () => (dispatch, getState) => {
       .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
   };
   
-  export const addCarritoDetalle = (orderDet) => (dispatch, getState) => {
-    
-    axios
-      .post(`/api/detallecarrito/`, orderDet, tokenConfig(getState))
-      .then((res) => {
-        dispatch(createMessage({ addOrderDet: 'Producto Agregado al Carrito' }));
-        dispatch({
-          type: ADD_CARRITO_DET,
-          payload: res.data,
-        });
-      })
-      .catch((err) => dispatch(
-        returnErrors(err.response.data, err.response.status)
-        
-        ));
-  };
 
-  export const getCarritoDet = () => (dispatch, getState) => {
+
+  export const deleteCarrito = (id) => (dispatch, getState) => {
     axios
-      .get(`/api/detallecarrito/`, tokenConfig(getState))
+      .delete(`/api/carrito/det/${id}/`, tokenConfig(getState))
       .then((res) => {
+        dispatch(createMessage({ deleteCarrito: 'Se ha eliminado del carrito' }));
         dispatch({
-          type: GET_CARRITO_DET,
+          type: DELETE_CARRITO,
           payload: res.data,
         });
       })
       .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
   };
   
-  export const updateCarrito = (order) => (dispatch, getState) => {
-    axios
-      .put('/api/carrito/', order, tokenConfig(getState))
-      .then((res) => {
-        dispatch({
-          type: UPDATE_CARRITO,
-          payload: res.data,
-        });
-      })
-      .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
-  };

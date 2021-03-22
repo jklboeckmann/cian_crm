@@ -1,30 +1,41 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { addProducto } from '../../actions/productos';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { addProducto } from "../../actions/productos";
 
 export class Form extends Component {
   state = {
-    descripcion: '',
-    precio: '',
-    stock: '',
+    descripcion: "",
+    precio: "",
+    stock: "",
+    image: null,
   };
 
   static propTypes = {
     addProducto: PropTypes.func.isRequired,
   };
 
+  handleImageChange = (e) => {
+    this.setState({
+      image: e.target.files[0],
+    });
+  };
+
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { descripcion, precio, stock } = this.state;
-    const producto = { descripcion, precio, stock };
+    let producto = new FormData();
+    producto.append("imagen", this.state.image, this.state.image.name);
+    producto.append("descripcion", this.state.descripcion);
+    producto.append("precio", this.state.precio);
+    producto.append("stock", this.state.stock);
     this.props.addProducto(producto);
     this.setState({
-      descripcion: '',
-      precio: '',
-      stock: '',
+      descripcion: "",
+      precio: "",
+      stock: "",
+      image: null,
     });
   };
 
@@ -58,10 +69,20 @@ export class Form extends Component {
             <label>Stock</label>
             <input
               className="form-control"
-              type="text"
+              type="trext"
               name="stock"
               onChange={this.onChange}
               value={stock}
+            />
+          </div>
+          <div className="form-group">
+            <label>Imagen</label>
+            <input
+              type="file"
+              id="image"
+              accept="image/png, image/jpeg"
+              onChange={this.handleImageChange}
+              required
             />
           </div>
           <div className="form-group">

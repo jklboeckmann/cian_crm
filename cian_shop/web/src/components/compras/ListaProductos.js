@@ -1,81 +1,58 @@
-import React, { Component, Fragment } from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { getAllProductos } from '../../actions/compras';
-import { addCarrito, getCarrito, addCarritoDetalle } from '../../actions/carrito';
-import PropTypes from 'prop-types';
+import React, { Component, Fragment } from "react";
+import styled from "styled-components";
+import { connect } from "react-redux";
+import { getAllProductos } from "../../actions/compras";
+import { addCarrito } from "../../actions/carrito";
+import PropTypes from "prop-types";
 
 export class ListaProductos extends Component {
-    static propTypes = {
-        productos: PropTypes.array.isRequired,
-        order: PropTypes.array.isRequired,
-        orderDet: PropTypes.array.isRequired,
-        getAllProductos: PropTypes.func.isRequired,
-        addCarrito: PropTypes.func.isRequired,
-        getCarrito: PropTypes.func.isRequired,
-        addCarritoDetalle: PropTypes.func.isRequired,
-      };
-    componentDidMount() {
-        this.props.getAllProductos();
-        this.props.getCarrito();
-    }
+  static propTypes = {
+    productos: PropTypes.array.isRequired,
+    getAllProductos: PropTypes.func.isRequired,
+    addCarrito: PropTypes.func.isRequired,
+  };
 
-    ComprobarPedido =  (e,cian_producto) => {
-        e.preventDefault();
-        var orders = this.props.order
-        orders = orders.filter(order => order.pagado == 0)
-        
-        if(orders.length){
-            this.props.addCarritoDetalle({'cian_pedido':orders[0].cian_pedido,'cian_producto':cian_producto})
+  componentDidMount() {
+    this.props.getAllProductos();
+  }
 
-        }
-        else{
-            const pedido = {};
-            this.props.addCarrito(pedido)
-            this.props.getCarrito();
-            orders = this.props.order
-            orders = orders.filter(order => order.pagado == false)
-            this.props.addCarritoDetalle({'cian_pedido':orders[0].cian_pedido,'cian_producto':cian_producto})
-
-        }
-    }
-
-    render() {
-        
-        return (
-            <Fragment>
-           {this.props.productos.map((producto) => (
-    <ProductoWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
-         <div className="card">
-             <div className="img-container p-5">
-             <button className='card-btn'  
-             onClick={(e) => {
-                this.ComprobarPedido(e, producto.cian_producto)}}>
-             <i className="fas fa-cart-plus"/>
-                      </button>
-             </div>
-             <div className="card-footer d-flex justify-content-between">
-             <p className="aling-self-center mb-0">
-                 {producto.descripcion}
-             </p>
-             <h5 className="text-b font-italic mb-0">
-                 <span className="ml-1">$</span>
-                 {producto.precio}
-             </h5>
-            
-             </div> 
+  render() {
+    return (
+      <Fragment>
+        <div className="container">
+        <h1>Lista de Productos</h1>
+         <div className="row" >
+        {this.props.productos.map((producto) => (
+          <ProductoWrapper className="col-4" key={producto.cian_producto}>
+            <div className="card" >
+              <div className="img-container p-5">
+                <img src={producto.imagen} alt={producto.descripcion}  className="card-img-top w-100"/>
+                <button className="card-btn" onClick={this.props.addCarrito.bind(this, producto)}>
+                  <i className="fas fa-cart-plus" />
+                </button>
+              </div>
+              <div className="card-footer d-flex justify-content-between">
+                <p className="aling-self-center mb-0">{producto.descripcion}</p>
+                <h5 className="text-b font-italic mb-0">
+                  <span className="ml-1">$</span>
+                  {producto.precio}
+                </h5>
+              </div>
+            </div>
+          </ProductoWrapper>
+        ))}
          </div>
-     </ProductoWrapper>
-     ))}
-          </Fragment>
-        )
-    }
+         </div>
+      </Fragment>
+    );
+  }
 }
 
 const ProductoWrapper = styled.div`
 .card{
     boreder-color:transparent;
     transition: all 0.3s linear;
+    margin-top:20px
 }
 .card-footer{
     background: transparent;
@@ -98,7 +75,10 @@ const ProductoWrapper = styled.div`
 
 .car-img-top{
     transition: all 0.5s linear;
+    width: 100px;
 }
+
+
 .img-container:hover .card-img-top{
     transform: scale(1.2);
 
@@ -121,12 +101,11 @@ const ProductoWrapper = styled.div`
 }
 `;
 
-
 const mapStateToProps = (state) => ({
-    productos: state.compras.productos,
-    order: state.carrito.order,
-    orderDet: state.carrito.orderDet,
-  });
-  
-  export default connect(mapStateToProps, { getAllProductos, addCarrito, getCarrito, addCarritoDetalle })(ListaProductos);
-  
+  productos: state.compras.productos
+});
+
+export default connect(mapStateToProps, {
+  getAllProductos,
+  addCarrito,
+})(ListaProductos);

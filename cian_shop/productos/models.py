@@ -6,6 +6,7 @@ class Producto(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     descripcion = models.CharField(max_length=300, blank=True, null=True)
     stock = models.IntegerField(blank=True, null=True)
+    imagen = models.ImageField(upload_to = 'product_images', null=True)
     vendedor = models.ForeignKey(
         User, related_name="productos", on_delete=models.CASCADE, null=True)
 
@@ -13,11 +14,12 @@ class Pedido(models.Model):
     cian_pedido = models.AutoField(primary_key=True)
     fecha=models.DateField(auto_now_add=True)
     pagado = models.BooleanField (default=False)
+    total = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     comprador = models.ForeignKey(
         User, related_name="pedidos",on_delete=models.CASCADE, null=True)
 
 class DetallePedido(models.Model):
     cian_detpedido = models.AutoField(primary_key=True)
     cian_pedido = models.ForeignKey(Pedido,related_name="detalles", on_delete=models.CASCADE, null=True)
-    cian_producto = models.ForeignKey(Producto,related_name="compras", on_delete=models.CASCADE, null=True)
-    
+    cian_producto = models.ForeignKey(Producto,related_name="productos", on_delete=models.CASCADE, null=True)
+    cantidad = models.DecimalField(max_digits=10, decimal_places=2)

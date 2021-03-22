@@ -22,6 +22,7 @@ export class Productos extends Component {
           <thead>
             <tr>
               <th>ID</th>
+              <th>IMAGEN</th>
               <th>DESCRIPCION</th>
               <th>PRECIO</th>
               <th>STOCK</th>
@@ -32,6 +33,7 @@ export class Productos extends Component {
             {this.props.productos.map((producto) => (
               <tr key={producto.cian_producto}>
                 <td>{producto.cian_producto}</td>
+                <td><img src={producto.imagen} alt={producto.descripcion}/></td>
                 <td>{producto.descripcion}</td>
                 <td>{producto.precio}</td>
                 <td>{producto.stock}</td>
