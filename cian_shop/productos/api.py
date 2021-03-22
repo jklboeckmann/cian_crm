@@ -69,12 +69,12 @@ class DetallePedidoViewSet(viewsets.ModelViewSet):
     serializer_class = DetallePedidoSerializer
     def get_queryset(self):
         return DetallePedido.objects.filter()
-    
-    def destroy(self, request, *args, **kwargs):
-        print(self.get_object().cian_pedido)
-        pedido = DetallePedidoSerializer(self.get_object())
-        return Response(pedido.data, status=status.HTTP_200_OK)
-    
-        
-    
 
+class VentasViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+    
+    serializer_class = PedidoSerializer
+    def get_queryset(self):
+        return Pedido.objects.filter(pagado=True)

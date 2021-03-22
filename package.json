@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@david.kucsai/react-pdf-table": "^0.3.0",
+    "@react-pdf/renderer": "^1.6.14",
     "axios": "^0.18.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

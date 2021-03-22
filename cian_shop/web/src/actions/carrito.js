@@ -2,7 +2,7 @@ import axios from 'axios';
 import { createMessage, returnErrors } from './messages';
 import { tokenConfig } from './auth';
 
-import { GET_CARRITO, ADD_CARRITO, DELETE_CARRITO } from './types';
+import { GET_CARRITO, ADD_CARRITO, DELETE_CARRITO, UPDATE_CARRITO } from './types';
 
 export const getCarrito = () => (dispatch, getState) => {
     axios
@@ -38,6 +38,21 @@ export const getCarrito = () => (dispatch, getState) => {
         dispatch(createMessage({ deleteCarrito: 'Se ha eliminado del carrito' }));
         dispatch({
           type: DELETE_CARRITO,
+          payload: res.data,
+        });
+      })
+      .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
+  };
+  
+
+  export const updateCarrito = (id, data) => (dispatch, getState) => {
+    console.log(id, data)
+    axios
+      .put(`/api/carrito/${id}/`, data, tokenConfig(getState))
+      .then((res) => {
+        dispatch(createMessage({ updateCarrito: 'Se ha realizado el pago del carrito' }));
+        dispatch({
+          type: UPDATE_CARRITO,
           payload: res.data,
         });
       })

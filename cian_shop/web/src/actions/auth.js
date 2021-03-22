@@ -12,9 +12,8 @@ import {
   REGISTER_FAIL,
 } from './types';
 
-// CHECK TOKEN & LOAD USER
 export const loadUser = () => (dispatch, getState) => {
-  // User Loading
+
   dispatch({ type: USER_LOADING });
 
   axios
@@ -33,9 +32,7 @@ export const loadUser = () => (dispatch, getState) => {
     });
 };
 
-// LOGIN USER
 export const login = (username, password) => (dispatch) => {
-  // Headers
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -61,16 +58,13 @@ export const login = (username, password) => (dispatch) => {
     });
 };
 
-// REGISTER USER
 export const register = ({ username, password, email }) => (dispatch) => {
-  // Headers
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  // Request Body
   const body = JSON.stringify({ username, email, password });
 
   axios
@@ -89,7 +83,6 @@ export const register = ({ username, password, email }) => (dispatch) => {
     });
 };
 
-// LOGOUT USER
 export const logout = () => (dispatch, getState) => {
   axios
     .post('/api/auth/logout/', null, tokenConfig(getState))

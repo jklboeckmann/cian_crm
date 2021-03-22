@@ -13,12 +13,13 @@ import Alerts from './layout/Alerts';
 import Login from './accounts/Login';
 import Register from './accounts/Register';
 import PrivateRoute from './common/PrivateRoute';
+import VentasProducto from './reportes/VentasProducto';
+import VentasGlobales from './reportes/ventasGlobales';
 
 
 import { Provider } from 'react-redux';
 import store from '../store';
 import { loadUser } from '../actions/auth';
-
 // Alert Options
 const alertOptions = {
   timeout: 3000,
@@ -45,6 +46,9 @@ class App extends Component {
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/productos" component={Dashboard} />
                   <Route exact path="/carrito" component={Carrito} />
+                  <Route exact path="/reportes/ventasproducto" component={VentasProducto} />
+                  <Route exact path="/reportes/ventas" component={VentasGlobales} />
+                  
                 </Switch>
               </div>
             </Fragment>

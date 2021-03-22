@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { getCarrito, deleteCarrito } from "../../actions/carrito";
+import { getCarrito, deleteCarrito, updateCarrito } from "../../actions/carrito";
 import PropTypes from "prop-types";
 
 export class Carrito extends Component {
@@ -10,6 +10,7 @@ export class Carrito extends Component {
     order: PropTypes.array.isRequired,
     getCarrito: PropTypes.func.isRequired,
     deleteCarrito: PropTypes.func.isRequired,
+    updateCarrito: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -50,10 +51,9 @@ export class Carrito extends Component {
                   <button
                     onClick={(e)=>{
                       e.preventDefault()
-                      this.props.deleteCarrito.bind(this, order_item_det.cian_detpedido)
+                      this.props.deleteCarrito.bind(this, order_item.cian_detpedidodo)
                       this.props.getCarrito();
                     }}
-                    className="btn btn-danger btn-sm"
                   >
                     Delete
                   </button>
@@ -65,7 +65,13 @@ export class Carrito extends Component {
               </div>
             ))}
 
-            <button className="card-btn">Comprar</button>
+            <button className="card-btn"
+            onClick={(e) => {
+              e.preventDefault()
+              this.props.updateCarrito(this.props.order[0].cian_pedido, {'pagado':true})
+              this.props.getCarrito();
+            }}
+            >Comprar</button>
         </div>
       </Fragment>
     );
@@ -77,4 +83,4 @@ const mapStateToProps = (state) => ({
   order: state.carrito.order,
 });
 
-export default connect(mapStateToProps, { getCarrito, deleteCarrito })(Carrito);
+export default connect(mapStateToProps, { getCarrito, deleteCarrito, updateCarrito })(Carrito);

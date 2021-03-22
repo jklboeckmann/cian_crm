@@ -24,6 +24,7 @@ export class Alerts extends Component {
       if (message.addProducto) alert.success(message.addProducto);
       if (message.addCarrito) alert.success(message.addCarrito);
       if (message.deleteCarrito) alert.success(message.deleteCarrito);
+      if (message.updateCarrito) alert.success(message.updateCarrito);
       if (message.passwordNotMatch) alert.error(message.passwordNotMatch);
     }
   }

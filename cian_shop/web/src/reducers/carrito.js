@@ -1,4 +1,4 @@
-import { GET_CARRITO, ADD_CARRITO, DELETE_CARRITO} from '../actions/types.js';
+import { GET_CARRITO, ADD_CARRITO, DELETE_CARRITO, UPDATE_CARRITO} from '../actions/types.js';
 
 const initialState = {
     order: []
@@ -21,6 +21,11 @@ const initialState = {
                 ...state,
                 order: [...state.order, action.payload],
               };
+        case UPDATE_CARRITO:
+                return {
+                  ...state,
+                  order: [...state.order, action.payload],
+        };
         default:
             return state;
     }
